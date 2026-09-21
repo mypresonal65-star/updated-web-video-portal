@@ -824,6 +824,9 @@
 .card-starred:hover { border-color: #fef08a; }
 .card-starred::before { background: linear-gradient(90deg, #eab308, #facc15); }
 
+.card-live:hover { border-color: #fca5a5; }
+.card-live::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+
 .subject-top-row {
   display: flex;
   justify-content: space-between;
@@ -858,6 +861,7 @@
 .card-computer .subject-icon-box { background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; }
 .card-english .subject-icon-box { background: #fff1f2; border: 1px solid #fecdd3; color: #e11d48; }
 .card-starred .subject-icon-box { background: #fefce8; border: 1px solid #fef08a; color: #ca8a04; }
+.card-live .subject-icon-box { background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; }
 
 .subject-name-heading {
   font-size: 0.95rem;

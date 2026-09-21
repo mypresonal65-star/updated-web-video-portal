@@ -50,6 +50,13 @@
   box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
+.subject-nav-tab.live-tab.active {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+}
+
 /* Subject Workspace Hero */
 .subject-hero-banner {
   display: flex;
