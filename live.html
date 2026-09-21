@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Live Broadcast Studio - Executive Classroom</title>
+  <title>Subject Workspace - Executive Classroom</title>
   
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/player.css">
-  <link rel="stylesheet" href="css/live.css">
+  <link rel="stylesheet" href="css/subject.css">
   <link rel="stylesheet" href="css/chat.css">
 </head>
 <body>
@@ -31,7 +31,7 @@
           <div class="brand-badge">FW</div>
           <div class="brand-text">
             <span class="brand-title">LEARNING PORTAL</span>
-            <span class="brand-sub">LIVE BROADCAST STUDIO</span>
+            <span class="brand-sub">SUBJECT WORKSPACE</span>
           </div>
         </a>
         <div class="live-counter-pill" id="headerLiveCounter" onclick="openOnlineUsersModal()">
@@ -43,15 +43,15 @@
       <div class="nav-center">
         <div class="nav-search-bar">
           <i class="fas fa-search"></i>
-          <input type="text" placeholder="Search live class notes, discussions...">
+          <input type="text" id="globalHeaderSearch" placeholder="Search chapters, concepts, formulas...">
         </div>
       </div>
 
       <div class="nav-right">
         <nav class="nav-links">
           <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
-          <a href="live.html" class="nav-link active"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
-          <a href="subject.html?sec=recorded" class="nav-link"><i class="fas fa-book-open"></i> Subjects</a>
+          <a href="live.html" class="nav-link"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
+          <a href="subject.html?sec=recorded" class="nav-link active"><i class="fas fa-book-open"></i> Subjects</a>
           <a href="admin (14).html" class="nav-link admin-pill"><i class="fas fa-shield-alt"></i> Admin</a>
         </nav>
 
@@ -80,110 +80,114 @@
 
   <main class="page-container">
 
-    <!-- Live Header Hero Bar -->
-    <div class="live-header-bar">
-      <div class="live-header-info">
-        <div class="live-beacon-large">
-          <span class="beacon-dot"></span>
-          <span>BROADCAST STAGE</span>
+    <!-- Subject Category Navigation Pill Bar -->
+    <div class="subject-nav-tabs">
+      <a href="subject.html?sec=recorded" class="subject-nav-tab" data-section="recorded">
+        <i class="fas fa-calculator"></i> Mathematics
+      </a>
+      <a href="subject.html?sec=reasoning" class="subject-nav-tab" data-section="reasoning">
+        <i class="fas fa-brain"></i> Reasoning
+      </a>
+      <a href="subject.html?sec=quant" class="subject-nav-tab" data-section="quant">
+        <i class="fas fa-chart-pie"></i> Quantitative
+      </a>
+      <a href="subject.html?sec=computer" class="subject-nav-tab" data-section="computer">
+        <i class="fas fa-laptop-code"></i> Computer Science
+      </a>
+      <a href="subject.html?sec=english" class="subject-nav-tab" data-section="english">
+        <i class="fas fa-book-open"></i> General English
+      </a>
+      <a href="subject.html?sec=starred" class="subject-nav-tab" data-section="starred" style="margin-left: auto;">
+        <i class="fas fa-star" style="color: #eab308;"></i> Starred Revision
+      </a>
+    </div>
+
+    <!-- Active Subject Hero Banner -->
+    <div class="subject-hero-banner" id="subjectHeroBanner">
+      <div class="subject-banner-left">
+        <div class="subject-banner-icon" id="subjectBannerIcon">
+          <i class="fas fa-calculator"></i>
         </div>
-        <div class="live-title-box">
-          <h1 id="activeLiveTitle">Connecting to Broadcast Stage...</h1>
-          <p id="activeLiveSubtitle">Interactive live classroom with real-time doubt clearing.</p>
+        <div class="subject-banner-text">
+          <h1 id="subjectBannerTitle">Mathematics Complete [MATH-101]</h1>
+          <p id="subjectBannerDesc">Comprehensive arithmetic, advanced algebra, calculus, and mock sets for 2027.</p>
         </div>
       </div>
 
-      <div class="live-meta-stats">
-        <div class="live-stat-pill">
-          <i class="fas fa-stopwatch"></i>
-          <span id="durationDisplay">00:00:00</span>
+      <div class="subject-banner-progress">
+        <div class="progress-label-row">
+          <span id="subjectProgressLabel">0/0 Lectures Completed (0%)</span>
+          <span>Target Batch 2027</span>
         </div>
-        <div class="live-stat-pill">
-          <i class="fas fa-eye"></i>
-          <span><strong id="liveViewersCount">1</strong> Watching</span>
+        <div class="progress-track">
+          <div class="progress-fill" id="subjectProgressFill" style="width: 0%;"></div>
         </div>
-        <a href="index.html" class="live-stat-pill" style="text-decoration: none; cursor: pointer; color: var(--text-primary);">
-          <i class="fas fa-arrow-left"></i> Dashboard
-        </a>
       </div>
     </div>
 
-    <!-- Live Studio 2-Column Grid -->
-    <div class="live-studio-layout">
+    <!-- Interactive Playlist Topic Selector Bar -->
+    <div class="subject-playlists-bar" id="subjectPlaylistsBar"></div>
 
-      <!-- Left: Cinema Player Screen -->
-      <div class="live-cinema-stage" id="liveCinemaStage">
-        <div class="live-no-stream">
-          <div class="live-no-stream-icon">
-            <i class="fas fa-satellite-dish"></i>
-          </div>
-          <h3>Connecting to Live Feed...</h3>
-          <p>Please wait while the secure stream initializes.</p>
-        </div>
+    <!-- Playlist Selector & Search Toolbar -->
+    <div class="subject-toolbar">
+      <div class="playlist-select-wrapper" id="playlistSelectWrapper">
+        <select class="playlist-select" id="playlistDropdown">
+          <option value="">Loading playlists...</option>
+        </select>
+        <i class="fas fa-chevron-down select-chevron"></i>
       </div>
 
-      <!-- Right: Broadcast Sidebar -->
-      <div class="live-sidebar">
-
-        <!-- Scheduled Classes -->
-        <div class="live-card">
-          <div class="live-card-header">
-            <h3><i class="fas fa-list-ul" style="color: var(--brand-primary);"></i> Active Sessions</h3>
-            <span class="chapter-count-badge" id="liveStreamCountBadge">Interactive</span>
-          </div>
-          <div class="live-schedule-list" id="liveScheduleList">
-            <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.85rem;">
-              ⏳ Checking scheduled streams...
-            </div>
-          </div>
-        </div>
-
-        <!-- Studio Rules & Guidelines -->
-        <div class="live-card">
-          <div class="live-card-header">
-            <h3><i class="fas fa-info-circle" style="color: #10b981;"></i> Classroom Guidelines</h3>
-          </div>
-          <ul style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; padding-left: 18px; margin: 0;">
-            <li>Keep study notes ready before the lecture begins.</li>
-            <li>Use the <strong>Study Chat</strong> widget (bottom right) to ask real-time doubts with classmates.</li>
-            <li>Double tap anywhere on the video screen to seek ±10 seconds if supported.</li>
-            <li>Your single-device session is protected. Logging in from another phone or PC will instantly auto-logout this screen.</li>
-          </ul>
-        </div>
-
-        <!-- Return to Subjects -->
-        <div class="live-card" style="text-align: center;">
-          <h4 style="font-size: 0.92rem; font-weight: 800; margin-bottom: 8px;">Need to revise past modules?</h4>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Browse all 6 curriculum subjects with full chapter archives.</p>
-          <a href="subject.html?sec=recorded" style="display: block; width: 100%; padding: 10px; border-radius: var(--radius-md); background: var(--bg-surface-elevated); border: 1px solid var(--border-light); font-size: 0.85rem; font-weight: 700; color: var(--brand-primary); text-decoration: none;">
-            Explore Subject Workspace <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-
+      <div class="chapter-search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="chapterSearchInput" placeholder="Filter lectures in this chapter...">
       </div>
 
+      <button id="markAllWatchedBtn" class="btn-hero-secondary" style="padding: 10px 18px; font-size: 0.85rem; border-radius: var(--radius-md);">
+        <i class="fas fa-check-double"></i> Mark Playlist Watched
+      </button>
     </div>
 
-    <!-- Full Live Lectures Library Section -->
-    <div class="live-catalog-section">
-      <div class="live-catalog-header">
-        <div class="live-catalog-title">
-          <i class="fas fa-video" style="color: #ef4444; font-size: 1.3rem;"></i>
-          <h2>All Live &amp; Interactive Masterclasses</h2>
-          <span class="live-count-chip" id="liveLecturesTotalCount">Loading...</span>
+    <!-- 2-Column Workspace Grid (Cinema Player on Left, Chapter list on Right) -->
+    <div class="subject-workspace-grid">
+
+      <!-- Left Column: Video Cinema Player Box -->
+      <div class="subject-player-column">
+        <div class="player-wrapper" id="subjectCinemaPlayerContainer">
+          <div style="position: absolute; top:0; left:0; width:100%; height:100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(15, 23, 42, 0.95) 80%); color: var(--text-muted); text-align: center; padding: 20px;">
+            <i class="fas fa-play-circle" style="font-size: 3.5rem; color: var(--brand-primary); margin-bottom: 16px; opacity: 0.8;"></i>
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 6px;">Select a Lecture to Start</h3>
+            <p style="font-size: 0.85rem; max-width: 360px;">Click on any chapter from the playlist on the right to stream the video in full HD.</p>
+          </div>
         </div>
-        <div class="live-search-wrap">
-          <i class="fas fa-search"></i>
-          <input type="text" id="liveCatalogSearchInput" placeholder="Filter live lectures (e.g. Binomial, Statistics)...">
+
+        <!-- In-Player Meta & Controls -->
+        <div class="playback-meta-bar">
+          <div class="meta-title-box">
+            <div class="active-video-title" id="activePlayingVideoTitle">No lecture playing</div>
+            <div class="active-video-sub" id="activePlayingVideoSub">Select lecture from curriculum</div>
+          </div>
+          <div class="meta-actions-box">
+            <span class="live-stat-pill" style="padding: 6px 12px; font-size: 0.8rem;">
+              <i class="fas fa-stopwatch"></i> <span id="durationDisplay">00:00:00</span>
+            </span>
+          </div>
         </div>
       </div>
 
-      <div class="live-lectures-grid" id="liveLecturesGrid">
-        <div style="text-align: center; padding: 40px; color: var(--text-muted); grid-column: 1 / -1;">
-          <i class="fas fa-spinner fa-spin fa-2x"></i>
-          <p style="margin-top: 10px;">Loading live classroom lectures...</p>
+      <!-- Right Column: Chapter List Panel -->
+      <div class="chapter-list-panel">
+        <div class="chapter-list-header">
+          <h3><i class="fas fa-list-ol" style="color: var(--brand-primary);"></i> Chapter Lectures</h3>
+          <span class="chapter-count-badge" id="playlistChapterCountBadge">0 Lectures</span>
+        </div>
+
+        <div class="chapter-scroll-area" id="chaptersScrollList">
+          <div style="text-align: center; padding: 30px; color: var(--text-muted);">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+          </div>
         </div>
       </div>
+
     </div>
 
   </main>
@@ -221,7 +225,7 @@
     <div id="studyChatMessages" class="chat-messages-container"></div>
 
     <form class="chat-input-bar" onsubmit="sendStudyMessage(event)">
-      <input type="text" id="studyChatInput" placeholder="Ask a doubt during live lecture..." autocomplete="off">
+      <input type="text" id="studyChatInput" placeholder="Ask a doubt regarding this chapter..." autocomplete="off">
       <button type="submit" class="btn-chat-send" title="Send">
         <i class="fas fa-paper-plane"></i>
       </button>
@@ -249,7 +253,7 @@
   <script src="js/api.js"></script>
   <script src="js/player.js"></script>
   <script src="js/chat.js"></script>
-  <script src="js/live.js"></script>
+  <script src="js/subject.js"></script>
 
 </body>
 </html>
