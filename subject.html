@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subject Workspace - Executive Classroom</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Video.js Stylesheet -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/subject.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <!-- Top Glassmorphic Navigation Bar -->
+  <header class="app-navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-brand">
+          <div class="brand-badge">PW</div>
+          <div class="brand-text">
+            <span class="brand-title">LEARNING PORTAL</span>
+            <span class="brand-sub">SUBJECT WORKSPACE</span>
+          </div>
+        </a>
+        <div class="live-counter-pill" id="headerLiveCounter" onclick="openOnlineUsersModal()">
+          <span class="beacon-pulse"></span>
+          <span id="onlineUserCountText">1 Online</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="nav-search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="globalHeaderSearch" placeholder="Search chapters, concepts, formulas...">
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+          <a href="live.html" class="nav-link"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
+          <a href="subject.html?sec=recorded" class="nav-link active"><i class="fas fa-book-open"></i> Subjects</a>
+          <a href="admin (14).html" class="nav-link admin-pill"><i class="fas fa-shield-alt"></i> Admin</a>
+        </nav>
+
+        <button id="themeToggle" class="btn-theme-toggle" title="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="user-profile-widget" id="headerUserProfile">
+          <div class="user-avatar" id="userAvatarInitial" onclick="promptEditDisplayName()">S</div>
+          <div class="user-info-text">
+            <div class="user-email-text" id="userProfileEmail">student@domain.com</div>
+            <div class="user-role-badge">Student Batch 2027</div>
+          </div>
+          <button id="logoutBtn" class="btn-logout" title="Sign Out">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hijack Notification Toast -->
+  <div id="hijackNotification" class="hijack-banner">
+    ⚠️ Aapka account kisi dusre device par login kiya gaya hai. Is device se auto-logout kar diya gaya hai.
+  </div>
+
+  <main class="page-container">
+
+    <!-- Subject Category Navigation Pill Bar -->
+    <div class="subject-nav-tabs">
+      <a href="subject.html?sec=recorded" class="subject-nav-tab" data-section="recorded">
+        <i class="fas fa-calculator"></i> Mathematics
+      </a>
+      <a href="subject.html?sec=reasoning" class="subject-nav-tab" data-section="reasoning">
+        <i class="fas fa-brain"></i> Reasoning
+      </a>
+      <a href="subject.html?sec=quant" class="subject-nav-tab" data-section="quant">
+        <i class="fas fa-chart-pie"></i> Quantitative
+      </a>
+      <a href="subject.html?sec=computer" class="subject-nav-tab" data-section="computer">
+        <i class="fas fa-laptop-code"></i> Computer Science
+      </a>
+      <a href="subject.html?sec=english" class="subject-nav-tab" data-section="english">
+        <i class="fas fa-book-open"></i> General English
+      </a>
+      <a href="subject.html?sec=starred" class="subject-nav-tab" data-section="starred" style="margin-left: auto;">
+        <i class="fas fa-star" style="color: #eab308;"></i> Starred Revision
+      </a>
+    </div>
+
+    <!-- Active Subject Hero Banner -->
+    <div class="subject-hero-banner" id="subjectHeroBanner">
+      <div class="subject-banner-left">
+        <div class="subject-banner-icon" id="subjectBannerIcon">
+          <i class="fas fa-calculator"></i>
+        </div>
+        <div class="subject-banner-text">
+          <h1 id="subjectBannerTitle">Mathematics Complete [MATH-101]</h1>
+          <p id="subjectBannerDesc">Comprehensive arithmetic, advanced algebra, calculus, and mock sets for 2027.</p>
+        </div>
+      </div>
+
+      <div class="subject-banner-progress">
+        <div class="progress-label-row">
+          <span id="subjectProgressLabel">0/0 Lectures Completed (0%)</span>
+          <span>Target Batch 2027</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="subjectProgressFill" style="width: 0%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive Playlist Topic Selector Bar -->
+    <div class="subject-playlists-bar" id="subjectPlaylistsBar"></div>
+
+    <!-- Playlist Selector & Search Toolbar -->
+    <div class="subject-toolbar">
+      <div class="playlist-select-wrapper" id="playlistSelectWrapper">
+        <select class="playlist-select" id="playlistDropdown">
+          <option value="">Loading playlists...</option>
+        </select>
+        <i class="fas fa-chevron-down select-chevron"></i>
+      </div>
+
+      <div class="chapter-search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="chapterSearchInput" placeholder="Filter lectures in this chapter...">
+      </div>
+
+      <button id="markAllWatchedBtn" class="btn-hero-secondary" style="padding: 10px 18px; font-size: 0.85rem; border-radius: var(--radius-md);">
+        <i class="fas fa-check-double"></i> Mark Playlist Watched
+      </button>
+    </div>
+
+    <!-- 2-Column Workspace Grid (Cinema Player on Left, Chapter list on Right) -->
+    <div class="subject-workspace-grid">
+
+      <!-- Left Column: Video Cinema Player Box -->
+      <div class="subject-player-column">
+        <div class="player-wrapper" id="subjectCinemaPlayerContainer">
+          <div style="position: absolute; top:0; left:0; width:100%; height:100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(15, 23, 42, 0.95) 80%); color: var(--text-muted); text-align: center; padding: 20px;">
+            <i class="fas fa-play-circle" style="font-size: 3.5rem; color: var(--brand-primary); margin-bottom: 16px; opacity: 0.8;"></i>
+            <h3 style="font-size: 1.2rem; color: #fff; margin-bottom: 6px;">Select a Lecture to Start</h3>
+            <p style="font-size: 0.85rem; max-width: 360px;">Click on any chapter from the playlist on the right to stream the video in full HD.</p>
+          </div>
+        </div>
+
+        <!-- In-Player Meta & Controls -->
+        <div class="playback-meta-bar">
+          <div class="meta-title-box">
+            <div class="active-video-title" id="activePlayingVideoTitle">No lecture playing</div>
+            <div class="active-video-sub" id="activePlayingVideoSub">Select lecture from curriculum</div>
+          </div>
+          <div class="meta-actions-box">
+            <span class="live-stat-pill" style="padding: 6px 12px; font-size: 0.8rem;">
+              <i class="fas fa-stopwatch"></i> <span id="durationDisplay">00:00:00</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Chapter List Panel -->
+      <div class="chapter-list-panel">
+        <div class="chapter-list-header">
+          <h3><i class="fas fa-list-ol" style="color: var(--brand-primary);"></i> Chapter Lectures</h3>
+          <span class="chapter-count-badge" id="playlistChapterCountBadge">0 Lectures</span>
+        </div>
+
+        <div class="chapter-scroll-area" id="chaptersScrollList">
+          <div style="text-align: center; padding: 30px; color: var(--text-muted);">
+            <i class="fas fa-spinner fa-spin fa-2x"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Floating Study Chat Launcher Trigger Button -->
+  <button id="floatingChatTrigger" class="floating-chat-trigger" onclick="toggleStudyChat()" title="Open Study Room Chat">
+    <i class="fas fa-comments"></i>
+    <span id="chatUnreadBadge" class="chat-unread-badge" style="display: none;">0</span>
+  </button>
+
+  <!-- Study Chat Window -->
+  <div id="studyChatWindow" class="study-chat-window">
+    <div class="chat-window-header">
+      <div class="chat-header-title">
+        <h4 id="chatTargetTitle">Batch Study Room</h4>
+        <div class="chat-online-indicator" onclick="openOnlineUsersModal()">
+          <i class="fas fa-circle"></i> Online
+        </div>
+      </div>
+      <div class="chat-window-header-actions">
+        <button class="chat-btn-icon" onclick="promptEditDisplayName()" title="Edit Name"><i class="fas fa-user-edit"></i></button>
+        <button class="chat-btn-icon" onclick="closeStudyChat()" title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+
+    <div class="chat-tabs-bar">
+      <button id="chatTabGroup" class="chat-tab-btn active" onclick="setChatMode('group')">
+        <i class="fas fa-users"></i> Study Room
+      </button>
+      <button id="chatTabDirect" class="chat-tab-btn" onclick="setChatMode('direct')">
+        <i class="fas fa-user"></i> Direct (1-on-1)
+      </button>
+    </div>
+
+    <div id="studyChatMessages" class="chat-messages-container"></div>
+
+    <form class="chat-input-bar" onsubmit="sendStudyMessage(event)">
+      <input type="text" id="studyChatInput" placeholder="Ask a doubt regarding this chapter..." autocomplete="off">
+      <button type="submit" class="btn-chat-send" title="Send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Active Online Students Modal -->
+  <div id="activeUsersModal" class="active-users-modal-overlay">
+    <div class="active-users-modal-card">
+      <div class="users-modal-header">
+        <h3><i class="fas fa-user-graduate" style="color: #10b981;"></i> Active Students</h3>
+        <button class="chat-btn-icon" onclick="closeOnlineUsersModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="activeUsersList" class="users-modal-list"></div>
+    </div>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Application Modular Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/subject.js"></script>
+
+</body>
+</html>

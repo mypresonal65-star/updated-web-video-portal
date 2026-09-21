@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Broadcast Studio - Executive Classroom</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Video.js Stylesheet -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/live.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <!-- Top Glassmorphic Navigation Bar -->
+  <header class="app-navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-brand">
+          <div class="brand-badge">PW</div>
+          <div class="brand-text">
+            <span class="brand-title">LEARNING PORTAL</span>
+            <span class="brand-sub">LIVE BROADCAST STUDIO</span>
+          </div>
+        </a>
+        <div class="live-counter-pill" id="headerLiveCounter" onclick="openOnlineUsersModal()">
+          <span class="beacon-pulse"></span>
+          <span id="onlineUserCountText">1 Online</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="nav-search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search live class notes, discussions...">
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+          <a href="live.html" class="nav-link active"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
+          <a href="subject.html?sec=recorded" class="nav-link"><i class="fas fa-book-open"></i> Subjects</a>
+          <a href="admin (14).html" class="nav-link admin-pill"><i class="fas fa-shield-alt"></i> Admin</a>
+        </nav>
+
+        <button id="themeToggle" class="btn-theme-toggle" title="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="user-profile-widget" id="headerUserProfile">
+          <div class="user-avatar" id="userAvatarInitial" onclick="promptEditDisplayName()">S</div>
+          <div class="user-info-text">
+            <div class="user-email-text" id="userProfileEmail">student@domain.com</div>
+            <div class="user-role-badge">Student Batch 2027</div>
+          </div>
+          <button id="logoutBtn" class="btn-logout" title="Sign Out">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hijack Notification Toast -->
+  <div id="hijackNotification" class="hijack-banner">
+    ⚠️ Aapka account kisi dusre device par login kiya gaya hai. Is device se auto-logout kar diya gaya hai.
+  </div>
+
+  <main class="page-container">
+
+    <!-- Live Header Hero Bar -->
+    <div class="live-header-bar">
+      <div class="live-header-info">
+        <div class="live-beacon-large">
+          <span class="beacon-dot"></span>
+          <span>BROADCAST STAGE</span>
+        </div>
+        <div class="live-title-box">
+          <h1 id="activeLiveTitle">Connecting to Broadcast Stage...</h1>
+          <p id="activeLiveSubtitle">Interactive live classroom with real-time doubt clearing.</p>
+        </div>
+      </div>
+
+      <div class="live-meta-stats">
+        <div class="live-stat-pill">
+          <i class="fas fa-stopwatch"></i>
+          <span id="durationDisplay">00:00:00</span>
+        </div>
+        <div class="live-stat-pill">
+          <i class="fas fa-eye"></i>
+          <span><strong id="liveViewersCount">1</strong> Watching</span>
+        </div>
+        <a href="index.html" class="live-stat-pill" style="text-decoration: none; cursor: pointer; color: var(--text-primary);">
+          <i class="fas fa-arrow-left"></i> Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Live Studio 2-Column Grid -->
+    <div class="live-studio-layout">
+
+      <!-- Left: Cinema Player Screen -->
+      <div class="live-cinema-stage" id="liveCinemaStage">
+        <div class="live-no-stream">
+          <div class="live-no-stream-icon">
+            <i class="fas fa-satellite-dish"></i>
+          </div>
+          <h3>Connecting to Live Feed...</h3>
+          <p>Please wait while the secure stream initializes.</p>
+        </div>
+      </div>
+
+      <!-- Right: Broadcast Sidebar -->
+      <div class="live-sidebar">
+
+        <!-- Scheduled Classes -->
+        <div class="live-card">
+          <div class="live-card-header">
+            <h3><i class="fas fa-list-ul" style="color: var(--brand-primary);"></i> Active Sessions</h3>
+            <span class="chapter-count-badge" id="liveStreamCountBadge">Interactive</span>
+          </div>
+          <div class="live-schedule-list" id="liveScheduleList">
+            <div style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.85rem;">
+              ⏳ Checking scheduled streams...
+            </div>
+          </div>
+        </div>
+
+        <!-- Studio Rules & Guidelines -->
+        <div class="live-card">
+          <div class="live-card-header">
+            <h3><i class="fas fa-info-circle" style="color: #10b981;"></i> Classroom Guidelines</h3>
+          </div>
+          <ul style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; padding-left: 18px; margin: 0;">
+            <li>Keep study notes ready before the lecture begins.</li>
+            <li>Use the <strong>Study Chat</strong> widget (bottom right) to ask real-time doubts with classmates.</li>
+            <li>Double tap anywhere on the video screen to seek ±10 seconds if supported.</li>
+            <li>Your single-device session is protected. Logging in from another phone or PC will instantly auto-logout this screen.</li>
+          </ul>
+        </div>
+
+        <!-- Return to Subjects -->
+        <div class="live-card" style="text-align: center;">
+          <h4 style="font-size: 0.92rem; font-weight: 800; margin-bottom: 8px;">Need to revise past modules?</h4>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">Browse all 6 curriculum subjects with full chapter archives.</p>
+          <a href="subject.html?sec=recorded" style="display: block; width: 100%; padding: 10px; border-radius: var(--radius-md); background: var(--bg-surface-elevated); border: 1px solid var(--border-light); font-size: 0.85rem; font-weight: 700; color: var(--brand-primary); text-decoration: none;">
+            Explore Subject Workspace <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Full Live Lectures Library Section -->
+    <div class="live-catalog-section">
+      <div class="live-catalog-header">
+        <div class="live-catalog-title">
+          <i class="fas fa-video" style="color: #ef4444; font-size: 1.3rem;"></i>
+          <h2>All Live &amp; Interactive Masterclasses</h2>
+          <span class="live-count-chip" id="liveLecturesTotalCount">Loading...</span>
+        </div>
+        <div class="live-search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="liveCatalogSearchInput" placeholder="Filter live lectures (e.g. Binomial, Statistics)...">
+        </div>
+      </div>
+
+      <div class="live-lectures-grid" id="liveLecturesGrid">
+        <div style="text-align: center; padding: 40px; color: var(--text-muted); grid-column: 1 / -1;">
+          <i class="fas fa-spinner fa-spin fa-2x"></i>
+          <p style="margin-top: 10px;">Loading live classroom lectures...</p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Floating Study Chat Launcher Trigger Button -->
+  <button id="floatingChatTrigger" class="floating-chat-trigger" onclick="toggleStudyChat()" title="Open Study Room Chat">
+    <i class="fas fa-comments"></i>
+    <span id="chatUnreadBadge" class="chat-unread-badge" style="display: none;">0</span>
+  </button>
+
+  <!-- Study Chat Window -->
+  <div id="studyChatWindow" class="study-chat-window">
+    <div class="chat-window-header">
+      <div class="chat-header-title">
+        <h4 id="chatTargetTitle">Batch Study Room</h4>
+        <div class="chat-online-indicator" onclick="openOnlineUsersModal()">
+          <i class="fas fa-circle"></i> Online
+        </div>
+      </div>
+      <div class="chat-window-header-actions">
+        <button class="chat-btn-icon" onclick="promptEditDisplayName()" title="Edit Name"><i class="fas fa-user-edit"></i></button>
+        <button class="chat-btn-icon" onclick="closeStudyChat()" title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+
+    <div class="chat-tabs-bar">
+      <button id="chatTabGroup" class="chat-tab-btn active" onclick="setChatMode('group')">
+        <i class="fas fa-users"></i> Study Room
+      </button>
+      <button id="chatTabDirect" class="chat-tab-btn" onclick="setChatMode('direct')">
+        <i class="fas fa-user"></i> Direct (1-on-1)
+      </button>
+    </div>
+
+    <div id="studyChatMessages" class="chat-messages-container"></div>
+
+    <form class="chat-input-bar" onsubmit="sendStudyMessage(event)">
+      <input type="text" id="studyChatInput" placeholder="Ask a doubt during live lecture..." autocomplete="off">
+      <button type="submit" class="btn-chat-send" title="Send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Active Online Students Modal -->
+  <div id="activeUsersModal" class="active-users-modal-overlay">
+    <div class="active-users-modal-card">
+      <div class="users-modal-header">
+        <h3><i class="fas fa-user-graduate" style="color: #10b981;"></i> Active Students</h3>
+        <button class="chat-btn-icon" onclick="closeOnlineUsersModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="activeUsersList" class="users-modal-list"></div>
+    </div>
+  </div>
+
+  <!-- External Libraries -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Application Modular Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/live.js"></script>
+
+</body>
+</html>

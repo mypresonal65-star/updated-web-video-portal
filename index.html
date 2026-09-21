@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Learning Portal - Executive Classroom Dashboard</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Video.js Stylesheet -->
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/player.css">
+  <link rel="stylesheet" href="css/chat.css">
+</head>
+<body>
+
+  <!-- Top Glassmorphic Navigation Bar -->
+  <header class="app-navbar">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="index.html" class="nav-brand">
+          <div class="brand-badge">PW</div>
+          <div class="brand-text">
+            <span class="brand-title">LEARNING PORTAL</span>
+            <span class="brand-sub">EXECUTIVE CLASSROOM 2027</span>
+          </div>
+        </a>
+        <div class="live-counter-pill" id="headerLiveCounter" style="display: none;" onclick="openOnlineUsersModal()">
+          <span class="beacon-pulse"></span>
+          <span id="onlineUserCountText">1 Online</span>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="nav-search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" id="globalHeaderSearch" placeholder="Search lectures, topics, concepts... (Ctrl + K)">
+          <span class="search-key-badge">Ctrl K</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <nav class="nav-links">
+          <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
+          <a href="live.html" class="nav-link"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
+          <a href="subject.html?sec=recorded" class="nav-link"><i class="fas fa-book-open"></i> Subjects</a>
+          <a href="admin (14).html" class="nav-link admin-pill"><i class="fas fa-shield-alt"></i> Admin</a>
+        </nav>
+
+        <button id="themeToggle" class="btn-theme-toggle" title="Toggle Theme">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <div class="user-profile-widget" id="headerUserProfile" style="display: none;">
+          <div class="user-avatar" id="userAvatarInitial" onclick="promptEditDisplayName()" title="Click to edit display name">S</div>
+          <div class="user-info-text">
+            <div class="user-email-text" id="userProfileEmail">student@domain.com</div>
+            <div class="user-role-badge">Student Batch 2027</div>
+          </div>
+          <button id="logoutBtn" class="btn-logout" title="Sign Out">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hijack Notification Toast -->
+  <div id="hijackNotification" class="hijack-banner">
+    ⚠️ Aapka account kisi dusre device par login kiya gaya hai. Is device se auto-logout kar diya gaya hai.
+  </div>
+
+  <main class="page-container">
+
+    <!-- LOGIN & AUTHENTICATION PANEL -->
+    <div id="loginContainer" class="login-container">
+      <div class="login-card">
+        <div class="login-brand-icon">
+          <i class="fas fa-graduation-cap"></i>
+        </div>
+        <h2>Student Access Portal</h2>
+        <p class="login-subtitle">Enter your registered student credentials to access high-yield lectures and live broadcasts.</p>
+
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Student Email</label>
+          <input type="email" id="loginEmail" placeholder="e.g. rahul.sharma@gmail.com">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-key"></i> Access Key</label>
+          <input type="password" id="loginKey" placeholder="Enter your 1-hour access key">
+        </div>
+
+        <div id="loginError" class="login-feedback-box error" style="display: none;"></div>
+        <div id="loginSuccess" class="login-feedback-box success" style="display: none;"></div>
+
+        <button id="loginBtn" class="btn-primary-action">
+          Sign In to Portal <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <div class="login-divider">
+          <span>OR CONTINUE WITH</span>
+        </div>
+
+        <!-- Google OAuth Sign-in for Private YouTube Lectures -->
+        <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=1028723653139-u010214a1a3642730623a9d914d8d184.apps.googleusercontent.com&redirect_uri=https://videoportal-4xxa.onrender.com&response_type=token&scope=email%20profile%20https://www.googleapis.com/auth/youtube.readonly" class="btn-google-auth">
+          <i class="fab fa-google"></i> Connect with Google (Private Lectures)
+        </a>
+
+        <!-- Key Generation Dropdown / Accordion -->
+        <div class="key-gen-card">
+          <div class="key-gen-title">
+            <i class="fas fa-bolt" style="color: #eab308;"></i> Need an Instant Key?
+          </div>
+          <p class="key-gen-desc">Enter your email below to instantly generate a single-device session key valid for 1 hour.</p>
+          <div class="key-gen-input-row">
+            <input type="email" id="genKeyEmail" placeholder="Your registered email">
+            <button id="genKeyBtn" class="btn-gen-key">Generate Key</button>
+          </div>
+          <div id="genKeyStatus" class="key-gen-status"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUTHENTICATED DASHBOARD CONTENT -->
+    <div id="videoContent" style="display: none;">
+
+      <!-- Top Command & Session Strip -->
+      <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 18px;">
+        <div id="resetBanner" class="user-bar">
+          <div class="user-info">
+            <div class="user-avatar-badge" id="userAvatarBadge">S</div>
+            <div class="user-meta-wrap">
+              <span class="user-meta-label">Active Security Heartbeat</span>
+              <span class="email" id="userEmail">student@domain.com</span>
+            </div>
+          </div>
+          <div class="user-bar-right">
+            <span id="sessionTimer" class="session-timer">⏰ 72:00:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Broadcast Notice Banner -->
+      <div id="noticeBanner" class="live-schedule-banner">
+        <div class="schedule-text">
+          <span class="pulse-dot"></span>
+          <span><strong>Daily Live Classroom:</strong> Today's live masterclass is scheduled in the Dedicated Broadcast Studio at <strong>06:00 PM IST</strong>.</span>
+        </div>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <a href="live.html" class="telegram-btn" style="background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24 !important;">
+            <i class="fas fa-broadcast-tower"></i> Join Live Studio
+          </a>
+          <button id="dismissNoticeBtn" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+
+      <!-- Hero 3-Column Executive Flight-Deck Card -->
+      <div class="dashboard-hero-card">
+        <div class="hero-watermark-bg"></div>
+        <div class="hero-glow-blob"></div>
+        
+        <div class="hero-content-grid">
+          <!-- Col 1: Info & Welcome -->
+          <div class="hero-col-info">
+            <div class="login-badge-pill" style="margin-bottom: 10px;">
+              <i class="fas fa-shield-alt"></i> PW Batch 2027
+            </div>
+            <h1>Executive Learning Hub</h1>
+            <p>Welcome to your state-of-the-art interactive student command center. Access curriculum modules, track lecture completion, and join live studios.</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a href="live.html" class="hero-action-btn" id="enterLiveStudioBtn" style="background: #ef4444; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);">
+                <i class="fas fa-broadcast-tower"></i> Live Studio
+              </a>
+              <a href="subject.html?sec=recorded" class="hero-action-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none;">
+                <i class="fas fa-book-reader"></i> Explore Modules
+              </a>
+            </div>
+          </div>
+
+          <!-- Col 2: Circular SVG Progress Ring -->
+          <div class="hero-col-progress">
+            <div class="circular-progress-wrap">
+              <svg class="circular-progress-svg" viewBox="0 0 120 120">
+                <circle class="progress-circle-bg" cx="60" cy="60" r="50"></circle>
+                <circle class="progress-circle-meter" id="heroProgressMeter" cx="60" cy="60" r="50"></circle>
+              </svg>
+              <div class="circular-progress-text">
+                <span class="circular-progress-pct" id="heroProgressPct">0%</span>
+                <span class="circular-progress-sub">Completed</span>
+              </div>
+            </div>
+            <div class="progress-lectures-sub" id="heroProgressLectures">0/474 Lectures</div>
+          </div>
+
+          <!-- Col 3: Live Broadcast Countdown -->
+          <div class="hero-col-countdown">
+            <div class="countdown-title">
+              <i class="fas fa-clock"></i> Next Live Lecture
+            </div>
+            <div class="countdown-details">
+              <strong>Revision Masterclass</strong><br>
+              Broadcast begins in:
+            </div>
+            <div style="font-size: 1.65rem; font-weight: 800; font-family: var(--font-mono); color: #f59e0b; margin-bottom: 12px; letter-spacing: 1px;" id="liveBroadcastCountdown">
+              00:00:00
+            </div>
+            <a href="live.html" class="countdown-join-btn">
+              Enter Broadcast Stage <i class="fas fa-arrow-right"></i>
+            </a>
+            <div class="hero-carousel-dots">
+              <span class="hero-dot active"></span>
+              <span class="hero-dot"></span>
+              <span class="hero-dot"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6-Card Executive Master Grid Header -->
+      <div class="my-subjects-header">
+        <div class="my-subjects-left">
+          <div class="my-subjects-title">
+            <i class="fas fa-layer-group" style="color: #38bdf8;"></i> My Curriculum Modules
+          </div>
+          <div class="my-subjects-badge">Choose a subject to open its dedicated workspace</div>
+        </div>
+        <div class="subjects-status-tags">
+          <span class="status-tag live-tag"><i class="fas fa-circle" style="font-size: 0.55rem;"></i> Single Device Verified</span>
+          <span class="status-tag target-tag"><i class="fas fa-award"></i> Exam Target 2027</span>
+        </div>
+      </div>
+
+      <!-- 6-Card Curriculum Grid -->
+      <div class="my-subjects-grid">
+
+        <!-- 1. Mathematics Card -->
+        <div class="subject-feature-card card-maths curriculum-card" data-section="recorded">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #38bdf8;"><i class="fas fa-calculator"></i></div>
+                <div>
+                  <div class="subject-name-heading">Mathematics Complete</div>
+                  <span class="subject-card-tag tag-maths">MATH-101</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Comprehensive arithmetic, advanced algebra, calculus, and mock sets for 2027.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-recorded">0/128 Lectures</span>
+              <span id="cardDone-recorded">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-recorded" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open Mathematics Workspace <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Reasoning Card -->
+        <div class="subject-feature-card card-reasoning curriculum-card" data-section="reasoning">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #c084fc;"><i class="fas fa-brain"></i></div>
+                <div>
+                  <div class="subject-name-heading">Reasoning & Logic</div>
+                  <span class="subject-card-tag tag-reasoning">RSN-201</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Verbal & non-verbal analytical reasoning, puzzles, seating arrangements, syllogisms.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-reasoning">0/94 Lectures</span>
+              <span id="cardDone-reasoning">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-reasoning" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open Reasoning Workspace <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. Quantitative Card -->
+        <div class="subject-feature-card card-quant curriculum-card" data-section="quant">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #fbbf24;"><i class="fas fa-chart-pie"></i></div>
+                <div>
+                  <div class="subject-name-heading">Quantitative Aptitude</div>
+                  <span class="subject-card-tag tag-quant">QNT-301</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Data interpretation, speed math techniques, geometry, time & work mastery.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-quant">0/112 Lectures</span>
+              <span id="cardDone-quant">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-quant" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open Quant Workspace <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4. Computer Science Card -->
+        <div class="subject-feature-card card-computer curriculum-card" data-section="computer">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #34d399;"><i class="fas fa-laptop-code"></i></div>
+                <div>
+                  <div class="subject-name-heading">Computer Science & IT</div>
+                  <span class="subject-card-tag tag-computer">CS-401</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Hardware, networking, DBMS, cybersecurity foundations, and exam-focused MCQs.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-computer">0/76 Lectures</span>
+              <span id="cardDone-computer">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-computer" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open Computer Workspace <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5. English Card -->
+        <div class="subject-feature-card card-english curriculum-card" data-section="english">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #fb7185;"><i class="fas fa-book-open"></i></div>
+                <div>
+                  <div class="subject-name-heading">General English & Vocab</div>
+                  <span class="subject-card-tag tag-english">ENG-501</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Grammar rules, daily root-word vocabulary, reading comprehension, and error spotting.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-english">0/64 Lectures</span>
+              <span id="cardDone-english">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-english" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open English Workspace <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Starred Revision Vault Card -->
+        <div class="subject-feature-card card-starred curriculum-card" data-section="starred">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #facc15;"><i class="fas fa-star"></i></div>
+                <div>
+                  <div class="subject-name-heading">Starred Revision Vault</div>
+                  <span class="subject-card-tag tag-starred">REV-901</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Your personalized collection of bookmarked high-yield lectures and problem discussions.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-starred">0 Saved</span>
+              <span id="cardDone-starred">0% Done</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-starred" style="width: 0%;"></div>
+            </div>
+            <button class="subject-view-btn">
+              Open Revision Vault <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Floating Study Chat Launcher Trigger Button -->
+  <button id="floatingChatTrigger" class="floating-chat-trigger" style="display: none;" onclick="toggleStudyChat()" title="Open Study Room Chat">
+    <i class="fas fa-comments"></i>
+    <span id="chatUnreadBadge" class="chat-unread-badge" style="display: none;">0</span>
+  </button>
+
+  <!-- Study Chat Window -->
+  <div id="studyChatWindow" class="study-chat-window">
+    <div class="chat-window-header">
+      <div class="chat-header-title">
+        <h4 id="chatTargetTitle">Batch Study Room</h4>
+        <div class="chat-online-indicator" onclick="openOnlineUsersModal()">
+          <i class="fas fa-circle"></i> Online
+        </div>
+      </div>
+      <div class="chat-window-header-actions">
+        <button class="chat-btn-icon" onclick="promptEditDisplayName()" title="Edit Name"><i class="fas fa-user-edit"></i></button>
+        <button class="chat-btn-icon" onclick="closeStudyChat()" title="Close"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+
+    <!-- Dual Tab Switcher -->
+    <div class="chat-tabs-bar">
+      <button id="chatTabGroup" class="chat-tab-btn active" onclick="setChatMode('group')">
+        <i class="fas fa-users"></i> Study Room
+      </button>
+      <button id="chatTabDirect" class="chat-tab-btn" onclick="setChatMode('direct')">
+        <i class="fas fa-user"></i> Direct (1-on-1)
+      </button>
+    </div>
+
+    <!-- Chat Messages -->
+    <div id="studyChatMessages" class="chat-messages-container"></div>
+
+    <!-- Chat Input Form -->
+    <form class="chat-input-bar" onsubmit="sendStudyMessage(event)">
+      <input type="text" id="studyChatInput" placeholder="Ask a doubt or message classmates..." autocomplete="off">
+      <button type="submit" class="btn-chat-send" title="Send">
+        <i class="fas fa-paper-plane"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Active Online Students Modal -->
+  <div id="activeUsersModal" class="active-users-modal-overlay">
+    <div class="active-users-modal-card">
+      <div class="users-modal-header">
+        <h3><i class="fas fa-user-graduate" style="color: #10b981;"></i> Active Students</h3>
+        <button class="chat-btn-icon" onclick="closeOnlineUsersModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div id="activeUsersList" class="users-modal-list"></div>
+    </div>
+  </div>
+
+  <!-- External Library Scripts -->
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+  <!-- Application Modular Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/dashboard.js"></script>
+
+</body>
+</html>
