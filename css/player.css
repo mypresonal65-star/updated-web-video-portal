@@ -1,0 +1,189 @@
+/* ==========================================================================
+   VIDEO PLAYER & PLAYBACK STYLES (css/player.css)
+   ========================================================================== */
+
+.player-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+.video-js {
+  width: 100% !important;
+  height: 100% !important;
+  font-family: inherit;
+}
+
+.video-js .vjs-big-play-button {
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  line-height: 72px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(15, 23, 42, 0.8) !important;
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 2.2rem;
+  transition: transform var(--transition-bounce), background var(--transition-fast), border-color var(--transition-fast);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.video-js:hover .vjs-big-play-button {
+  background: var(--brand-primary) !important;
+  border-color: #fff;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.video-js .vjs-control-bar {
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 15, 30, 0.92) 100%) !important;
+  height: 54px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+}
+
+.video-js .vjs-play-progress {
+  background: linear-gradient(90deg, #6366f1, #8b5cf6) !important;
+}
+
+.video-js .vjs-slider {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.video-js .vjs-load-progress {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+/* Double Tap Seek Ripple Effect */
+.double-tap-ripple {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  z-index: 20;
+  transition: opacity 0.25s ease;
+}
+
+.double-tap-ripple.left {
+  left: 0;
+  border-top-left-radius: var(--radius-lg);
+  border-bottom-left-radius: var(--radius-lg);
+}
+
+.double-tap-ripple.right {
+  right: 0;
+  border-top-right-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.double-tap-ripple.active {
+  animation: seekPulse 0.6s ease-out forwards;
+}
+
+@keyframes seekPulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+  }
+}
+
+.double-tap-ripple i {
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+/* YouTube Iframe Fallback Container */
+.yt-iframe-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* In-Page Mini Floating Controls / Playback Speed Chips */
+.playback-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-top: none;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.meta-title-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+.meta-title-box .active-video-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta-title-box .active-video-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.meta-actions-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-speed-chip {
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-speed-chip:hover,
+.btn-speed-chip.active {
+  background: var(--brand-primary);
+  color: #fff;
+  border-color: var(--brand-primary);
+}

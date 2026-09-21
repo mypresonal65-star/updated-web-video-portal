@@ -1,0 +1,212 @@
+/* ==========================================================================
+   DESIGN SYSTEM TOKENS - PHYSICSWALLAH & UNACADEMY GRADE
+   ========================================================================== */
+:root {
+  --font-main: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Light Theme Colors (Clean Crisp Slate & Royal Blue) */
+  --bg-canvas: #f4f7fb;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f8fafc;
+  --bg-surface-hover: #f1f5f9;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-focus: #3b82f6;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+
+  --brand-primary: #2563eb;
+  --brand-primary-hover: #1d4ed8;
+  --brand-primary-light: #eff6ff;
+  --brand-gradient: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+
+  --accent-amber: #f59e0b;
+  --accent-amber-light: #fef3c7;
+  --accent-emerald: #10b981;
+  --accent-emerald-light: #ecfdf5;
+  --accent-rose: #ef4444;
+
+  --batch-bg: #fffbeb;
+  --batch-border: #fde68a;
+  --batch-color: #b45309;
+
+  --header-bg: rgba(255, 255, 255, 0.88);
+  --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  --hero-gradient: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --hero-text: #ffffff;
+
+  --shadow-surface: 0 10px 30px -4px rgba(15, 23, 42, 0.05);
+  --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+  --shadow-elevated: 0 20px 40px -8px rgba(15, 23, 42, 0.1);
+  --shadow-glow: 0 0 25px rgba(37, 99, 235, 0.2);
+}
+
+body.dark-mode {
+  /* Dark Theme Colors (Midnight OLED & Electric Blue) */
+  --bg-canvas: #090d16;
+  --bg-surface: #111827;
+  --bg-surface-elevated: #162032;
+  --bg-surface-hover: #1e293b;
+  --border-subtle: #1e293b;
+  --border-strong: #334155;
+  --border-focus: #60a5fa;
+
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  --brand-primary: #3b82f6;
+  --brand-primary-hover: #60a5fa;
+  --brand-primary-light: rgba(59, 130, 246, 0.15);
+  --brand-gradient: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+
+  --accent-amber: #fbbf24;
+  --accent-amber-light: rgba(251, 191, 36, 0.12);
+  --accent-emerald: #34d399;
+  --accent-emerald-light: rgba(52, 211, 153, 0.12);
+  --accent-rose: #f87171;
+
+  --batch-bg: rgba(251, 191, 36, 0.12);
+  --batch-border: rgba(251, 191, 36, 0.3);
+  --batch-color: #fbbf24;
+
+  --header-bg: rgba(17, 24, 39, 0.88);
+  --card-gradient: linear-gradient(135deg, #131b2e 0%, #111827 100%);
+  --hero-gradient: linear-gradient(135deg, #0b1324 0%, #161e31 100%);
+  --hero-text: #f8fafc;
+
+  --shadow-surface: 0 16px 40px -8px rgba(0, 0, 0, 0.7);
+  --shadow-card: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  --shadow-elevated: 0 25px 50px -10px rgba(0, 0, 0, 0.85);
+  --shadow-glow: 0 0 30px rgba(59, 130, 246, 0.25);
+}
+
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: #0b1120;
+  color: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.dark-mode {
+  background: #070a12;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Main App Card Container */
+.app {
+  max-width: 1080px;
+  width: 100%;
+  background: #0f172a;
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+  padding: 24px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+/* Common UI Utilities */
+.status-bar {
+  font-size: 0.8rem;
+  padding: 6px 14px;
+  border-radius: 30px;
+  display: inline-block;
+  margin-bottom: 12px;
+  background: var(--bg-surface-elevated);
+  color: var(--text-muted);
+}
+
+.footer-note {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  text-align: center;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.reset-banner {
+  background: #fff3cd;
+  color: #856404;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  text-align: center;
+  margin-bottom: 14px;
+  display: none;
+}
+
+.hijack-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ef4444;
+  color: white;
+  padding: 14px 28px;
+  border-radius: 16px;
+  font-weight: 700;
+  z-index: 99999;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  display: none;
+  text-align: center;
+  max-width: 90%;
+}
+.hijack-notification.show {
+  display: block;
+  animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateX(-50%) translateY(-40px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes live-ring-pulse {
+  0% { transform: scale(0.8); opacity: 0.95; }
+  70% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  body { padding: 12px 8px; }
+  .app { padding: 16px 14px; border-radius: 20px; }
+}
