@@ -28,7 +28,7 @@
     <div class="nav-container">
       <div class="nav-left">
         <a href="index.html" class="nav-brand">
-          <div class="brand-badge">PW</div>
+          <div class="brand-badge">FW</div>
           <div class="brand-text">
             <span class="brand-title">LEARNING PORTAL</span>
             <span class="brand-sub">SUBJECT WORKSPACE</span>
@@ -96,6 +96,9 @@
       </a>
       <a href="subject.html?sec=english" class="subject-nav-tab" data-section="english">
         <i class="fas fa-book-open"></i> General English
+      </a>
+      <a href="subject.html?sec=live" class="subject-nav-tab live-tab" data-section="live" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.35); background: rgba(239, 68, 68, 0.08); font-weight: 700;">
+        <i class="fas fa-broadcast-tower"></i> Live Classes
       </a>
       <a href="subject.html?sec=starred" class="subject-nav-tab" data-section="starred" style="margin-left: auto;">
         <i class="fas fa-star" style="color: #eab308;"></i> Starred Revision
@@ -254,6 +257,33 @@
   <script src="js/player.js"></script>
   <script src="js/chat.js"></script>
   <script src="js/subject.js"></script>
+
+  <!-- Mobile Bottom App Bar -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a href="index.html" class="mobile-nav-item" id="mobNavHome">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="live.html" class="mobile-nav-item" id="mobNavLive">
+      <div class="mob-live-badge-wrap">
+        <i class="fas fa-broadcast-tower"></i>
+        <span class="mob-live-pulse"></span>
+      </div>
+      <span>Live Class</span>
+    </a>
+    <a href="subject.html?sec=recorded" class="mobile-nav-item active" id="mobNavSubjects">
+      <i class="fas fa-book-open"></i>
+      <span>Subjects</span>
+    </a>
+    <a href="admin (14).html" class="mobile-nav-item mob-nav-admin" id="mobNavAdmin">
+      <i class="fas fa-shield-alt"></i>
+      <span>Admin</span>
+    </a>
+    <a href="javascript:void(0)" onclick="logout()" class="mobile-nav-item" id="mobNavLogout" title="Sign Out">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </nav>
 
 </body>
 </html>

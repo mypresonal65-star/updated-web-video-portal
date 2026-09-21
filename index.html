@@ -464,6 +464,34 @@
           </div>
         </div>
 
+        <!-- 7. Live Interactive Broadcast Stage Card -->
+        <div class="subject-feature-card card-live curriculum-card" data-section="live" style="border-color: rgba(239, 68, 68, 0.35);">
+          <div>
+            <div class="subject-top-row">
+              <div class="subject-title-left">
+                <div class="subject-icon-box" style="color: #ef4444; background: rgba(239, 68, 68, 0.12);"><i class="fas fa-broadcast-tower"></i></div>
+                <div>
+                  <div class="subject-name-heading">Live Masterclasses</div>
+                  <span class="subject-card-tag tag-live" style="background: rgba(239, 68, 68, 0.12); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.25);">🔴 LIVE STAGE</span>
+                </div>
+              </div>
+            </div>
+            <div class="subject-desc-sub">Interactive classroom broadcasts, test analysis, doubt-solving &amp; problem sessions.</div>
+          </div>
+          <div>
+            <div class="subject-progress-stats">
+              <span id="cardLectures-live" style="color: #ef4444; font-weight: 700;">● Active Stream Ready</span>
+              <span id="cardDone-live" style="color: #10b981; font-weight: 700;">720p HD</span>
+            </div>
+            <div class="subject-progress-track">
+              <div class="subject-progress-bar" id="cardFill-live" style="width: 100%; background: linear-gradient(90deg, #ef4444, #f97316);"></div>
+            </div>
+            <button class="subject-view-btn" style="background: #ef4444; color: #ffffff; border-color: #ef4444;">
+              Enter Live Studio <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -565,6 +593,33 @@
       }
     })();
   </script>
+
+  <!-- Mobile Bottom App Bar -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav" style="display: none;">
+    <a href="index.html" class="mobile-nav-item active" id="mobNavHome">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="live.html" class="mobile-nav-item" id="mobNavLive">
+      <div class="mob-live-badge-wrap">
+        <i class="fas fa-broadcast-tower"></i>
+        <span class="mob-live-pulse"></span>
+      </div>
+      <span>Live Class</span>
+    </a>
+    <a href="subject.html?sec=recorded" class="mobile-nav-item" id="mobNavSubjects">
+      <i class="fas fa-book-open"></i>
+      <span>Subjects</span>
+    </a>
+    <a href="admin (14).html" class="mobile-nav-item mob-nav-admin" id="mobNavAdmin">
+      <i class="fas fa-shield-alt"></i>
+      <span>Admin</span>
+    </a>
+    <a href="javascript:void(0)" onclick="logout()" class="mobile-nav-item" id="mobNavLogout" title="Sign Out">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </nav>
 
 </body>
 </html>
