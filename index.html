@@ -17,6 +17,7 @@
   <!-- Modular Stylesheets -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/login.css">
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/player.css">
   <link rel="stylesheet" href="css/chat.css">
@@ -28,7 +29,7 @@
     <div class="nav-container">
       <div class="nav-left">
         <a href="index.html" class="nav-brand">
-          <div class="brand-badge">PW</div>
+          <div class="brand-badge">FW</div>
           <div class="brand-text">
             <span class="brand-title">LEARNING PORTAL</span>
             <span class="brand-sub">EXECUTIVE CLASSROOM 2027</span>
@@ -40,7 +41,7 @@
         </div>
       </div>
 
-      <div class="nav-center">
+      <div class="nav-center" id="navCenterSearch" style="display: none;">
         <div class="nav-search-bar">
           <i class="fas fa-search"></i>
           <input type="text" id="globalHeaderSearch" placeholder="Search lectures, topics, concepts... (Ctrl + K)">
@@ -49,7 +50,7 @@
       </div>
 
       <div class="nav-right">
-        <nav class="nav-links">
+        <nav class="nav-links" id="navLinks" style="display: none;">
           <a href="index.html" class="nav-link active"><i class="fas fa-home"></i> Home</a>
           <a href="live.html" class="nav-link"><i class="fas fa-broadcast-tower" style="color: #ef4444;"></i> Live Class</a>
           <a href="subject.html?sec=recorded" class="nav-link"><i class="fas fa-book-open"></i> Subjects</a>
@@ -81,55 +82,126 @@
 
   <main class="page-container">
 
-    <!-- LOGIN & AUTHENTICATION PANEL -->
-    <div id="loginContainer" class="login-container">
-      <div class="login-card">
-        <div class="login-brand-icon">
-          <i class="fas fa-graduation-cap"></i>
-        </div>
-        <h2>Student Access Portal</h2>
-        <p class="login-subtitle">Enter your registered student credentials to access high-yield lectures and live broadcasts.</p>
+    <!-- ====== PREMIUM LOGIN PAGE ====== -->
+    <div id="loginContainer" class="lp-root">
 
-        <div class="form-group">
-          <label><i class="fas fa-envelope"></i> Student Email</label>
-          <input type="email" id="loginEmail" placeholder="e.g. rahul.sharma@gmail.com">
-        </div>
+      <!-- LEFT PANEL — Branding + Animated Visual -->
+      <div class="lp-left">
+        <div class="lp-left-glow-1"></div>
+        <div class="lp-left-glow-2"></div>
 
-        <div class="form-group">
-          <label><i class="fas fa-key"></i> Access Key</label>
-          <input type="password" id="loginKey" placeholder="Enter your 1-hour access key">
-        </div>
-
-        <div id="loginError" class="login-feedback-box error" style="display: none;"></div>
-        <div id="loginSuccess" class="login-feedback-box success" style="display: none;"></div>
-
-        <button id="loginBtn" class="btn-primary-action">
-          Sign In to Portal <i class="fas fa-arrow-right"></i>
-        </button>
-
-        <div class="login-divider">
-          <span>OR CONTINUE WITH</span>
-        </div>
-
-        <!-- Google OAuth Sign-in for Private YouTube Lectures -->
-        <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=1028723653139-u010214a1a3642730623a9d914d8d184.apps.googleusercontent.com&redirect_uri=https://videoportal-4xxa.onrender.com&response_type=token&scope=email%20profile%20https://www.googleapis.com/auth/youtube.readonly" class="btn-google-auth">
-          <i class="fab fa-google"></i> Connect with Google (Private Lectures)
-        </a>
-
-        <!-- Key Generation Dropdown / Accordion -->
-        <div class="key-gen-card">
-          <div class="key-gen-title">
-            <i class="fas fa-bolt" style="color: #eab308;"></i> Need an Instant Key?
+        <div class="lp-left-content">
+          <div class="lp-logo-mark">
+            <div class="lp-fw-badge">FW</div>
+            <div class="lp-brand-name">
+              <span class="lp-brand-title">Learning Portal</span>
+              <span class="lp-brand-sub">Executive Classroom 2027</span>
+            </div>
           </div>
-          <p class="key-gen-desc">Enter your email below to instantly generate a single-device session key valid for 1 hour.</p>
-          <div class="key-gen-input-row">
-            <input type="email" id="genKeyEmail" placeholder="Your registered email">
-            <button id="genKeyBtn" class="btn-gen-key">Generate Key</button>
+
+          <div class="lp-hero-text">
+            <h1>Your Gateway to<br><span class="lp-gradient-text">Excellence.</span></h1>
+            <p>Access 474+ lectures, live broadcasts, and subject workspaces — all in one secured, single-device portal.</p>
           </div>
-          <div id="genKeyStatus" class="key-gen-status"></div>
+
+          <div class="lp-feature-pills">
+            <div class="lp-pill"><i class="fas fa-broadcast-tower"></i> Daily Live Classes</div>
+            <div class="lp-pill"><i class="fas fa-shield-alt"></i> Single-Device Secure</div>
+            <div class="lp-pill"><i class="fas fa-layer-group"></i> 6 Subject Modules</div>
+            <div class="lp-pill"><i class="fas fa-star"></i> Starred Bookmarks</div>
+          </div>
+
+          <div class="lp-stat-row">
+            <div class="lp-stat">
+              <span class="lp-stat-num">474+</span>
+              <span class="lp-stat-label">Total Lectures</span>
+            </div>
+            <div class="lp-stat-div"></div>
+            <div class="lp-stat">
+              <span class="lp-stat-num">6</span>
+              <span class="lp-stat-label">Subjects</span>
+            </div>
+            <div class="lp-stat-div"></div>
+            <div class="lp-stat">
+              <span class="lp-stat-num">LIVE</span>
+              <span class="lp-stat-label">Daily 6 PM IST</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- RIGHT PANEL — Login Form -->
+      <div class="lp-right">
+        <div class="lp-form-card">
+          <div class="lp-card-ring"></div>
+
+          <div class="lp-form-header">
+            <div class="lp-form-icon">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h2>Sign In to Portal</h2>
+            <p>Enter your student credentials to access your workspace</p>
+          </div>
+
+          <div class="lp-field-wrap">
+            <div class="lp-field-icon"><i class="fas fa-envelope"></i></div>
+            <input type="email" id="loginEmail" class="lp-input" placeholder=" " autocomplete="email">
+            <label class="lp-floating-label">Student Email</label>
+          </div>
+
+          <div class="lp-field-wrap">
+            <div class="lp-field-icon"><i class="fas fa-key"></i></div>
+            <input type="password" id="loginKey" class="lp-input" placeholder=" " autocomplete="current-password">
+            <label class="lp-floating-label">1-Hour Access Key</label>
+            <button type="button" class="lp-eye-btn" id="toggleKeyVisibility" tabindex="-1">
+              <i class="fas fa-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+
+          <div id="loginError" class="lp-feedback lp-error" style="display:none;"></div>
+          <div id="loginSuccess" class="lp-feedback lp-success" style="display:none;"></div>
+
+          <button id="loginBtn" class="lp-signin-btn">
+            <span>Sign In to Portal</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+
+          <div class="lp-divider"><span>OR CONTINUE WITH</span></div>
+
+          <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=853267104713-46mrftcdeva7a8di4bdq6i6br29bd3vn.apps.googleusercontent.com&redirect_uri=https://prev-live-classes-azio.onrender.com&response_type=token&scope=https://www.googleapis.com/auth/youtube.readonly&prompt=consent" target="_blank" class="lp-google-btn">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 009 18z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/></svg>
+            <span>Sign in with Google</span>
+            <span class="lp-google-sub">for Private Lectures</span>
+          </a>
+
+          <div class="lp-keygen">
+            <button class="lp-keygen-toggle" id="keygenToggle" type="button">
+              <i class="fas fa-bolt" style="color:#fbbf24;"></i>
+              <span>Need an Instant Key?</span>
+              <i class="fas fa-chevron-down lp-chevron" id="keygenChevron"></i>
+            </button>
+            <div class="lp-keygen-body" id="keygenBody" style="display:none;">
+              <p class="lp-keygen-hint">Generate a single-device session key valid for 1 hour</p>
+              <div class="lp-keygen-row">
+                <div class="lp-field-wrap lp-keygen-input">
+                  <div class="lp-field-icon"><i class="fas fa-envelope"></i></div>
+                  <input type="email" id="genKeyEmail" class="lp-input" placeholder=" ">
+                  <label class="lp-floating-label">Registered Email</label>
+                </div>
+                <button id="genKeyBtn" class="lp-gen-btn">
+                  <i class="fas fa-bolt"></i> Generate
+                </button>
+              </div>
+              <div id="genKeyStatus" class="lp-keygen-status"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /lp-root -->
+
+
 
     <!-- AUTHENTICATED DASHBOARD CONTENT -->
     <div id="videoContent" style="display: none;">
@@ -157,7 +229,7 @@
           <span><strong>Daily Live Classroom:</strong> Today's live masterclass is scheduled in the Dedicated Broadcast Studio at <strong>06:00 PM IST</strong>.</span>
         </div>
         <div style="display: flex; gap: 10px; align-items: center;">
-          <a href="live.html" class="telegram-btn" style="background: rgba(245, 158, 11, 0.2); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24 !important;">
+          <a href="live.html" class="telegram-btn">
             <i class="fas fa-broadcast-tower"></i> Join Live Studio
           </a>
           <button id="dismissNoticeBtn" style="background: none; border: none; color: #94a3b8; cursor: pointer; padding: 4px;"><i class="fas fa-times"></i></button>
@@ -172,16 +244,16 @@
         <div class="hero-content-grid">
           <!-- Col 1: Info & Welcome -->
           <div class="hero-col-info">
-            <div class="login-badge-pill" style="margin-bottom: 10px;">
-              <i class="fas fa-shield-alt"></i> PW Batch 2027
+            <div class="hero-badge-pill">
+              <i class="fas fa-award"></i> FW Executive Classroom 2027
             </div>
             <h1>Executive Learning Hub</h1>
             <p>Welcome to your state-of-the-art interactive student command center. Access curriculum modules, track lecture completion, and join live studios.</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-              <a href="live.html" class="hero-action-btn" id="enterLiveStudioBtn" style="background: #ef4444; box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);">
+            <div class="hero-actions-row">
+              <a href="live.html" class="hero-action-btn hero-btn-live" id="enterLiveStudioBtn">
                 <i class="fas fa-broadcast-tower"></i> Live Studio
               </a>
-              <a href="subject.html?sec=recorded" class="hero-action-btn" style="background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); box-shadow: none;">
+              <a href="subject.html?sec=recorded" class="hero-action-btn hero-btn-modules">
                 <i class="fas fa-book-reader"></i> Explore Modules
               </a>
             </div>
@@ -200,27 +272,8 @@
               </div>
             </div>
             <div class="progress-lectures-sub" id="heroProgressLectures">0/474 Lectures</div>
-          </div>
-
-          <!-- Col 3: Live Broadcast Countdown -->
-          <div class="hero-col-countdown">
-            <div class="countdown-title">
-              <i class="fas fa-clock"></i> Next Live Lecture
-            </div>
-            <div class="countdown-details">
-              <strong>Revision Masterclass</strong><br>
-              Broadcast begins in:
-            </div>
-            <div style="font-size: 1.65rem; font-weight: 800; font-family: var(--font-mono); color: #f59e0b; margin-bottom: 12px; letter-spacing: 1px;" id="liveBroadcastCountdown">
-              00:00:00
-            </div>
-            <a href="live.html" class="countdown-join-btn">
-              Enter Broadcast Stage <i class="fas fa-arrow-right"></i>
-            </a>
-            <div class="hero-carousel-dots">
-              <span class="hero-dot active"></span>
-              <span class="hero-dot"></span>
-              <span class="hero-dot"></span>
+            <div class="hero-streak-pill">
+              <i class="fas fa-fire" style="color: #f59e0b;"></i> Daily Target Active
             </div>
           </div>
         </div>
@@ -483,5 +536,36 @@
   <script src="js/chat.js"></script>
   <script src="js/dashboard.js"></script>
 
+  <!-- Login Page UI Interactions -->
+  <script>
+    // Keygen accordion toggle
+    (function() {
+      var toggle = document.getElementById('keygenToggle');
+      var body   = document.getElementById('keygenBody');
+      var chev   = document.getElementById('keygenChevron');
+      if (toggle && body) {
+        toggle.addEventListener('click', function() {
+          var open = body.style.display !== 'none';
+          body.style.display = open ? 'none' : 'block';
+          if (chev) chev.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+      }
+      // Eye toggle for key field
+      var eyeBtn  = document.getElementById('toggleKeyVisibility');
+      var keyInp  = document.getElementById('loginKey');
+      var eyeIcon = document.getElementById('eyeIcon');
+      if (eyeBtn && keyInp) {
+        eyeBtn.addEventListener('click', function() {
+          var show = keyInp.type === 'password';
+          keyInp.type = show ? 'text' : 'password';
+          if (eyeIcon) {
+            eyeIcon.className = show ? 'fas fa-eye-slash' : 'fas fa-eye';
+          }
+        });
+      }
+    })();
+  </script>
+
 </body>
 </html>
+
