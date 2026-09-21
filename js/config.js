@@ -73,6 +73,16 @@ const SECTION_CONFIG = {
     color: '#eab308',
     gradient: 'linear-gradient(135deg, #eab308, #a16207)',
     desc: 'Your personalized collection of bookmarked high-yield lectures and problem discussions.'
+  },
+  live: {
+    id: 'live',
+    title: 'Live Interactive Masterclasses',
+    shortName: 'Live Classes',
+    code: 'LIVE-STAGE',
+    icon: 'fa-broadcast-tower',
+    color: '#ef4444',
+    gradient: 'linear-gradient(135deg, #ef4444, #dc2626)',
+    desc: 'Live broadcast classroom sessions, real-time problem discussions, and concept masterclasses.'
   }
 };
 

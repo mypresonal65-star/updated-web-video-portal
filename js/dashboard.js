@@ -49,6 +49,7 @@ function showDashboardView() {
   const floatingChatTrigger = document.getElementById('floatingChatTrigger');
   const navCenterSearch = document.getElementById('navCenterSearch');
   const navLinks = document.getElementById('navLinks');
+  const mobileBottomNav = document.getElementById('mobileBottomNav');
 
   if (loginContainer) loginContainer.style.display = 'none';
   if (videoContent) videoContent.style.display = 'block';
@@ -57,6 +58,7 @@ function showDashboardView() {
   if (floatingChatTrigger) floatingChatTrigger.style.display = 'flex';
   if (navCenterSearch) navCenterSearch.style.display = 'block';
   if (navLinks) navLinks.style.display = 'flex';
+  if (mobileBottomNav) mobileBottomNav.style.display = 'flex';
 
   // User Profile
   const email = getCurrentUserEmail() || 'Student';
@@ -77,6 +79,7 @@ function showLoginView() {
   const floatingChatTrigger = document.getElementById('floatingChatTrigger');
   const navCenterSearch = document.getElementById('navCenterSearch');
   const navLinks = document.getElementById('navLinks');
+  const mobileBottomNav = document.getElementById('mobileBottomNav');
 
   if (loginContainer) loginContainer.style.display = 'block';
   if (videoContent) videoContent.style.display = 'none';
@@ -85,6 +88,7 @@ function showLoginView() {
   if (floatingChatTrigger) floatingChatTrigger.style.display = 'none';
   if (navCenterSearch) navCenterSearch.style.display = 'none';
   if (navLinks) navLinks.style.display = 'none';
+  if (mobileBottomNav) mobileBottomNav.style.display = 'none';
 }
 
 function updateDashboardOnlineCount(count) {
@@ -290,8 +294,11 @@ function setupDashboardEvents() {
       if (e.key === 'Enter') {
         const q = globalSearch.value.trim();
         if (q) {
-          // Open recorded section with search
-          window.location.href = `subject.html?sec=recorded&q=${encodeURIComponent(q)}`;
+          if (q.toLowerCase().includes('live')) {
+            window.location.href = 'live.html';
+          } else {
+            window.location.href = `subject.html?sec=recorded&q=${encodeURIComponent(q)}`;
+          }
         }
       }
     });
@@ -304,12 +311,14 @@ function setupDashboardEvents() {
     }
   });
 
-  // Curriculum Cards Click Navigation -> Dedicated subject.html
+  // Curriculum Cards Click Navigation -> Dedicated subject.html or live.html
   document.querySelectorAll('.curriculum-card').forEach(card => {
     card.addEventListener('click', function(e) {
       // If clicked on action button, prevent double fire
       const section = this.dataset.section;
-      if (section) {
+      if (section === 'live') {
+        window.location.href = 'live.html';
+      } else if (section) {
         window.location.href = `subject.html?sec=${section}`;
       }
     });

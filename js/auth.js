@@ -302,6 +302,7 @@ async function logout(reasonMessage) {
   const liveCounter = document.getElementById('headerLiveCounter');
   const navCenterSearch = document.getElementById('navCenterSearch');
   const navLinks = document.getElementById('navLinks');
+  const mobileBottomNav = document.getElementById('mobileBottomNav');
 
   if (loginContainer) loginContainer.style.display = 'block';
   if (videoContent) videoContent.style.display = 'none';
@@ -309,6 +310,7 @@ async function logout(reasonMessage) {
   if (liveCounter) liveCounter.style.display = 'none';
   if (navCenterSearch) navCenterSearch.style.display = 'none';
   if (navLinks) navLinks.style.display = 'none';
+  if (mobileBottomNav) mobileBottomNav.style.display = 'none';
 
   const loginError = document.getElementById('loginError');
   if (loginError) {

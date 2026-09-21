@@ -43,6 +43,8 @@ async function initSubjectWorkspace() {
 
   if (activeSectionKey === 'starred') {
     await loadStarredWorkspace();
+  } else if (activeSectionKey === 'live') {
+    await loadLiveSubjectWorkspace();
   } else {
     await loadSubjectData(queryParam);
   }
@@ -465,6 +467,27 @@ function setupSubjectEvents() {
     });
   }
 
+  // Global Header Search
+  const globalSearch = document.getElementById('globalHeaderSearch');
+  if (globalSearch) {
+    globalSearch.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const q = globalSearch.value.trim();
+        if (q) {
+          if (q.toLowerCase().includes('live')) {
+            window.location.href = 'live.html';
+          } else {
+            const pageSearch = document.getElementById('chapterSearchInput');
+            if (pageSearch) {
+              pageSearch.value = q;
+              renderChapterList(q);
+            }
+          }
+        }
+      }
+    });
+  }
+
   // Mark all watched button
   const markAllBtn = document.getElementById('markAllWatchedBtn');
   if (markAllBtn) {
@@ -474,6 +497,132 @@ function setupSubjectEvents() {
   // Floating Chat
   const chatTrigger = document.getElementById('floatingChatTrigger');
   if (chatTrigger) chatTrigger.addEventListener('click', toggleStudyChat);
+}
+
+// Load Live Subject Workspace
+async function loadLiveSubjectWorkspace() {
+  const dropdown = document.getElementById('playlistDropdown');
+  const chaptersContainer = document.getElementById('chaptersScrollList');
+  const chapterCountBadge = document.getElementById('playlistChapterCountBadge');
+  const bar = document.getElementById('subjectPlaylistsBar');
+  const markWatchedBtn = document.getElementById('markAllWatchedBtn');
+
+  if (markWatchedBtn) markWatchedBtn.style.display = 'none';
+  if (bar) bar.style.display = 'none';
+
+  if (chaptersContainer) {
+    chaptersContainer.innerHTML = '<div style="text-align:center; padding: 40px; color: var(--text-muted);"><i class="fas fa-spinner fa-spin fa-2x"></i><p style="margin-top:10px;">Connecting to Live Broadcast Feed...</p></div>';
+  }
+
+  try {
+    const liveItems = await fetchImportantClasses();
+
+    if (dropdown) {
+      dropdown.innerHTML = `<option value="live">🔴 Live Masterclasses (${liveItems.length} Sessions Available)</option>`;
+      dropdown.disabled = true;
+    }
+    if (chapterCountBadge) {
+      chapterCountBadge.textContent = `${liveItems.length} Live`;
+    }
+
+    const label = document.getElementById('subjectProgressLabel');
+    const fill = document.getElementById('subjectProgressFill');
+    if (label) label.textContent = `🔴 Live Broadcast Studio Stage (${liveItems.length} Streams Active)`;
+    if (fill) {
+      fill.style.width = '100%';
+      fill.style.background = 'linear-gradient(90deg, #ef4444, #f97316)';
+    }
+
+    if (!liveItems || liveItems.length === 0) {
+      if (chaptersContainer) {
+        chaptersContainer.innerHTML = `
+          <div class="chapter-empty-state">
+            <i class="fas fa-satellite-dish" style="color: #ef4444;"></i>
+            <h3>No Live Classes at this moment</h3>
+            <p>Our educators are setting up the next broadcast stream. Please check scheduled classes or visit the dedicated studio.</p>
+            <a href="live.html" class="btn-live-dash" style="display:inline-block; margin-top:12px; padding:8px 18px; border-radius:20px; background:#ef4444; color:#fff; text-decoration:none; font-weight:700;">Open Dedicated Live Studio</a>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    // Render live sessions in chaptersScrollList
+    chaptersContainer.innerHTML = '';
+    
+    // Add banner at top of list linking to dedicated studio
+    const studioLinkBanner = document.createElement('div');
+    studioLinkBanner.style.cssText = 'padding: 12px 14px; margin-bottom: 12px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;';
+    studioLinkBanner.innerHTML = `
+      <div style="font-size: 0.82rem; color: var(--text-primary);">
+        <strong style="color: #ef4444;"><i class="fas fa-broadcast-tower"></i> Live Broadcast Mode:</strong> Tap any lecture below to play immediately in cinema stage.
+      </div>
+      <a href="live.html" style="font-size: 0.78rem; font-weight: 700; color: #fff; background: #ef4444; padding: 6px 14px; border-radius: 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;">
+        <i class="fas fa-satellite-dish"></i> Cinema Stage Mode <i class="fas fa-arrow-right"></i>
+      </a>
+    `;
+    chaptersContainer.appendChild(studioLinkBanner);
+
+    liveItems.forEach((stream, idx) => {
+      const card = document.createElement('div');
+      card.className = 'chapter-item';
+      card.dataset.streamId = stream.id;
+
+      card.innerHTML = `
+        <span class="chapter-number" style="background: rgba(239, 68, 68, 0.12); color: #ef4444; font-weight: 800;">LIVE ${idx + 1}</span>
+        <div class="chapter-info-col">
+          <div class="chapter-name">${stream.title}</div>
+          <div class="chapter-sub-meta">
+            <span class="video-type-badge hls"><i class="fas fa-satellite-dish"></i> Live Stream</span>
+            <span class="meta-chip">720p HD</span>
+            <span class="meta-chip">Single Device Verified</span>
+          </div>
+        </div>
+        <div class="chapter-actions">
+          <button class="play-btn" style="background: #ef4444; color: #fff; border-color: #ef4444;" title="Watch Live Stream">
+            <i class="fas fa-play"></i> Watch
+          </button>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.chapter-item').forEach(el => el.classList.remove('active'));
+        card.classList.add('active');
+        playLiveStreamInSubject(stream);
+      });
+
+      chaptersContainer.appendChild(card);
+    });
+
+    // Auto-play first live session in cinema player
+    if (liveItems.length > 0) {
+      const firstCard = chaptersContainer.querySelector('.chapter-item');
+      if (firstCard) firstCard.classList.add('active');
+      playLiveStreamInSubject(liveItems[0]);
+    }
+  } catch (err) {
+    console.error('Failed to load live subjects:', err);
+    if (chaptersContainer) {
+      chaptersContainer.innerHTML = '<div class="chapter-empty-state"><p>⚠️ Failed to load live classes. Please try refreshing the page.</p></div>';
+    }
+  }
+}
+
+function playLiveStreamInSubject(stream) {
+  if (!stream) return;
+  const container = document.getElementById('cinemaPlayerContainer');
+  const titleEl = document.getElementById('cinemaLectureTitle');
+  const chipEl = document.getElementById('cinemaLectureChapterChip');
+  const noteEl = document.getElementById('cinemaLectureNotes');
+
+  if (titleEl) titleEl.textContent = stream.title;
+  if (chipEl) chipEl.textContent = '🔴 Live Interactive Broadcast';
+  if (noteEl) noteEl.textContent = 'Streaming live masterclass session in 720p HD. Single-device security verified.';
+
+  if (container) {
+    loadVideoIntoContainer(container, stream.link, `live-${stream.id}`, stream.title);
+    container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', initSubjectWorkspace);

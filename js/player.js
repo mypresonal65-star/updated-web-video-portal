@@ -153,9 +153,13 @@ function loadVideoIntoContainer(container, link, chapterId, title = '') {
   // 2. HLS (.m3u8) Stream
   if (link.includes('.m3u8') && typeof Hls !== 'undefined' && Hls.isSupported()) {
     const videoEl = document.createElement('video');
-    videoEl.className = 'video-js vjs-default-skin';
+    videoEl.className = 'video-js vjs-default-skin vjs-fluid';
     videoEl.setAttribute('controls', '');
     videoEl.setAttribute('preload', 'auto');
+    videoEl.setAttribute('playsinline', '');
+    videoEl.setAttribute('webkit-playsinline', '');
+    videoEl.style.width = '100%';
+    videoEl.style.height = '100%';
     container.appendChild(videoEl);
 
     const hls = new Hls({
@@ -182,7 +186,11 @@ function loadVideoIntoContainer(container, link, chapterId, title = '') {
     const player = videojs(videoEl, {
       controls: true,
       fluid: true,
-      inactivityTimeout: 2500
+      inactivityTimeout: 2500,
+      html5: {
+        nativeAudioTracks: false,
+        nativeVideoTracks: false
+      }
     });
 
     setupPlayerEventListeners(player);
